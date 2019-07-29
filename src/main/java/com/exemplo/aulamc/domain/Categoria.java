@@ -1,5 +1,7 @@
 package com.exemplo.aulamc.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Categoria implements Serializable {
     private Integer id;
     private String nome;
 
+    @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "categoria_produto",
             joinColumns = @JoinColumn(name = "categoria_id"),

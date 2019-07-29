@@ -1,4 +1,4 @@
-package com.exemplo.aulamc.resources;
+package com.exemplo.aulamc.controller;
 
 import com.exemplo.aulamc.domain.Categoria;
 import com.exemplo.aulamc.service.CategoriaService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value="categorias")
-public class CategoriaResource {
+public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
