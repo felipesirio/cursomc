@@ -1,13 +1,8 @@
 package com.exemplo.aulamc;
 
-import com.exemplo.aulamc.domain.Categoria;
-import com.exemplo.aulamc.domain.Cidade;
-import com.exemplo.aulamc.domain.Estado;
-import com.exemplo.aulamc.domain.Produto;
-import com.exemplo.aulamc.repository.CategoriaRepository;
-import com.exemplo.aulamc.repository.CidadeRepository;
-import com.exemplo.aulamc.repository.EstadoRepository;
-import com.exemplo.aulamc.repository.ProdutoRepository;
+import com.exemplo.aulamc.domain.*;
+import com.exemplo.aulamc.domain.enums.TipoCliente;
+import com.exemplo.aulamc.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +21,10 @@ public class AulamcApplication implements CommandLineRunner {
     private EstadoRepository estadoRepository;
     @Autowired
     private CidadeRepository cidadeRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AulamcApplication.class, args);
@@ -67,5 +66,16 @@ public class AulamcApplication implements CommandLineRunner {
 
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+        Cliente cli1 = new Cliente(null, "Luiz Felipe", "felipe.sirio@gmail.com", "00471556041", TipoCliente.PESSOA_FISICA);
+        cli1.getTelefones().addAll(Arrays.asList("999909097", "30594724"));
+
+        Endereco endereco = new Endereco(null, "Rua das Orquídeas", "153", "Casa", "5 Colônias", "92320390", cli1, c1);
+        Endereco endereco2 = new Endereco(null, "Rua das Orquídeas", "153", "Casa", "5 Colônias", "92320390", cli1, c2);
+
+        cli1.getEnderecos().addAll(Arrays.asList(endereco, endereco2));
+
+        clienteRepository.saveAll((Arrays.asList(cli1)));
+        enderecoRepository.saveAll((Arrays.asList(endereco, endereco2)));
     }
 }
