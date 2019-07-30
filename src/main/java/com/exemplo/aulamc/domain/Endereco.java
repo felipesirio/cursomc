@@ -1,5 +1,8 @@
 package com.exemplo.aulamc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,10 +20,12 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cep;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
