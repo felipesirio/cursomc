@@ -1,6 +1,7 @@
 package com.exemplo.aulamc;
 
 import com.exemplo.aulamc.domain.*;
+import com.exemplo.aulamc.domain.enums.EstadoPagamento;
 import com.exemplo.aulamc.domain.enums.TipoCliente;
 import com.exemplo.aulamc.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -25,6 +27,10 @@ public class AulamcApplication implements CommandLineRunner {
     private EnderecoRepository enderecoRepository;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AulamcApplication.class, args);
@@ -77,5 +83,19 @@ public class AulamcApplication implements CommandLineRunner {
 
         clienteRepository.saveAll((Arrays.asList(cli1)));
         enderecoRepository.saveAll((Arrays.asList(endereco, endereco2)));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Pedido ped1 = new Pedido(null, sdf.parse("30/07/2019 10:20"), cli1, endereco);
+        Pedido ped2 = new Pedido(null, sdf.parse("30/07/2019 18:08"), cli1, endereco2);
+
+        Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+        ped1.setPagamento(pagto1);
+
+        Pagamento pagto2 = new PagamentoComBoleto(null,EstadoPagamento.PENDENTE, ped2, sdf.parse("15/08/2019 00:00"), sdf.parse("30/07/2019 00:00"));
+        ped2.setPagamento(pagto2);
+
+        pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+        pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
     }
 }
