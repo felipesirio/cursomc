@@ -1,7 +1,5 @@
 package com.exemplo.aulamc.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -18,21 +16,17 @@ public class Pedido implements Serializable {
     private Integer id;
     private Date instante;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "endereco_de_entrega")
     private Endereco enderecoDeEntrega;
 
-    @JsonManagedReference
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
     private Pagamento pagamento;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> itens = new HashSet<>();
 
