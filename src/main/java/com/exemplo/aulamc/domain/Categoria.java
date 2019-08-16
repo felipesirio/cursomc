@@ -15,11 +15,7 @@ public class Categoria implements Serializable {
     private Integer id;
     private String nome;
 
-    @ManyToMany
-    @JoinTable(name = "categoria_produto",
-            joinColumns = @JoinColumn(name = "categoria_id"),
-            inverseJoinColumns = @JoinColumn(name = "produto_id")
-    )
+    @ManyToMany(mappedBy="categorias")
     private List<Produto> produtos = new ArrayList<>();
 
     public Categoria() {
