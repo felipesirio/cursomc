@@ -2,8 +2,10 @@ package com.exemplo.aulamc.service;
 
 import com.exemplo.aulamc.domain.Categoria;
 import com.exemplo.aulamc.repository.CategoriaRepository;
+import com.exemplo.aulamc.service.exceptions.DataIntegrityException;
 import com.exemplo.aulamc.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,5 +30,14 @@ public class CategoriaService {
     public Categoria alterar(Categoria cat){
         buscar(cat.getId());
         return categoriaRepository.save(cat);
+    }
+
+    public void deletar(Integer id) {
+        try {
+            categoriaRepository.deleteById(id);
+        } catch(DataIntegrityViolationException e){
+            throw new DataIntegrityException("Não é possível deletar uma categoria que já possui produtos.");
+        }
+
     }
 }
