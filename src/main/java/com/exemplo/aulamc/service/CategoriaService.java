@@ -22,6 +22,10 @@ public class CategoriaService {
                 "Id: " + id + ", Tipo: " + Categoria.class.getName()));
     }
 
+    public Iterable<Categoria> buscarTodos(){
+        return categoriaRepository.findAll();
+    }
+
     public Categoria inserir(Categoria cat){
         cat.setId(null);
         return categoriaRepository.save(cat);
