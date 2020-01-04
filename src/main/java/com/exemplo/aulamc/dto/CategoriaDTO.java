@@ -32,4 +32,8 @@ public class CategoriaDTO implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
+	
+	private void doNothing(){
+		System.out.println("Fiz nada");
+	}
 }
